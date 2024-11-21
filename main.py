@@ -34,7 +34,7 @@ def print_medalists(country, year):
     for i in range(len(data)):
         if counter < 10:
             if (data[i][6] == country or data[i][7]==country)and year==data[i][9]:
-                print(data[i][1], data[i][12], data[i][14])
+                print(*data[i])
                 counter+=1
         else:
             break
