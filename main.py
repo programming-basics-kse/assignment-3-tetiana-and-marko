@@ -1,10 +1,8 @@
 import os
 import argparse
-
 import sys
 
 LIST_NUM = 10
-
 
 def get_data_from_file(name):
     data = []
@@ -15,13 +13,10 @@ def get_data_from_file(name):
             data.append(a)
     return data
 
-
 def arguments_validation(input_file, country, year, output_file):
     if not os.path.exists(input_file):
         print("There is no such input file")
         return False
-
-
     year_flag = country_flag = False
     for i in range(len(data)):
         if country == data[i][6] or country==data[i][7] or args.total:
@@ -34,11 +29,9 @@ def arguments_validation(input_file, country, year, output_file):
         print(f"{country} is not in dataset!(Country invalid)")
     if not year_flag:
         print(f"{year} is not in dataset!(Year invalid)")
-
     return False
 
 def total_dictionary(year):
-
     totals = {}
     for i in data:
         if year == i[9]:
@@ -89,7 +82,6 @@ def write_output(country, year, type):
                     file.write("\n")
     file.close()
 
-
 #PARSER
 parser = argparse.ArgumentParser()
 parser.add_argument('input', help="Filepath for an input file")
@@ -111,7 +103,6 @@ else:
 if year.isdigit():
     year = int(year)
 
-print("country",country,"year",year)
 if arguments_validation(args.input, country, year, args.output):
     if args.medals:
         print_medalists(country, year)
