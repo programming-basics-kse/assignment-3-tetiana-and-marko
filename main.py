@@ -1,5 +1,6 @@
 import os
 import argparse
+
 import sys
 
 LIST_NUM = 10
@@ -20,9 +21,10 @@ def arguments_validation(input_file, country, year, output_file):
         print("There is no such input file")
         return False
 
+
     year_flag = country_flag = False
     for i in range(len(data)):
-        if country == data[i][6] or country.lower():
+        if country == data[i][6] or country==data[i][7] or args.total:
             country_flag = True
         if year == data[i][9]:
             year_flag = True
@@ -35,8 +37,8 @@ def arguments_validation(input_file, country, year, output_file):
 
     return False
 
-
 def total_dictionary(year):
+
     totals = {}
     for i in data:
         if year == i[9]:
@@ -47,25 +49,22 @@ def total_dictionary(year):
                 totals[i[6]].append(i[-1])
     return totals
 
-
 def print_total(year):
     totals = total_dictionary(year)
     for j in totals:
         if not totals[j].count("Bronze") == 0 and totals[j].count("Silver") == 0 and totals[j].count("Gold") == 0:
             print(
-                f"{j}  Bronze:{totals[j].count("Bronze")} Silver:{totals[j].count("Silver")} Gold:{totals[j].count("Gold")}")
-
+                f"{j}  Bronze:{totals[j].count('Bronze')} Silver:{totals[j].count('Silver')} Gold:{totals[j].count('Gold')}")
 
 def print_medalists(country, year):
     counter = 0
     for i in range(len(data)):
         if counter < 10:
             if (data[i][6] == country or data[i][7] == country) and year == data[i][9]:
-                print(*data[i], sep="; ")
+                print(f"{data[i][1]}, {data[i][12]}, {data[i][14]}")
                 counter += 1
         else:
             break
-
 
 def write_output(country, year, type):
     with open(f"{args.output}", "wt") as file:
@@ -86,32 +85,41 @@ def write_output(country, year, type):
                 if not totals[j].count("Bronze") == 0 and totals[j].count("Silver") == 0 and totals[j].count(
                         "Gold") == 0:
                     file.write(
-                        f"{j}  Bronze:{totals[j].count("Bronze")} Silver:{totals[j].count("Silver")} Gold:{totals[j].count("Gold")}")
+                        f"{j}  Bronze:{totals[j].count('Bronze')} Silver:{totals[j].count('Silver')} Gold:{totals[j].count('Gold')}")
                     file.write("\n")
     file.close()
 
 
+#PARSER
 parser = argparse.ArgumentParser()
 parser.add_argument('input', help="Filepath for an input file")
-parser.add_argument('-total', action="store_true", help="Filepath for an input file")
-parser.add_argument('-medals', action="store_true", help="Filepath for an input file")
-parser.add_argument('country',
-                    help="Country. The name can be entered both by full name (Team column) and by code")
-parser.add_argument('year', type=int, help="The year of the Olympics")
+parser.add_argument('-medals',nargs=2, help="Argument to get medalists by country and year")
+parser.add_argument('-total', help="Argument to get medalists by year")
 parser.add_argument('-output', type=str, help="Filepath for an output file")
 
 args = parser.parse_args()
 
+#LOAD DATA
 data = get_data_from_file("athlete_events.csv")
 
-if arguments_validation(args.input, args.country, args.year, args.output):
+#MAIN
+if args.medals:
+    country,year=args.medals
+else:
+    year=args.total
+    country=None
+if year.isdigit():
+    year = int(year)
+
+print("country",country,"year",year)
+if arguments_validation(args.input, country, year, args.output):
     if args.medals:
-        print_medalists(args.country, args.year)
+        print_medalists(country, year)
         if args.output:
-            write_output(args.country, args.year, args.medals)
+            write_output(country, year, args.medals)
     elif args.total:
-        print_total(args.year)
+        print_total(year)
         if args.output:
-            write_output(args.country, args.year, args.total)
+            write_output(country, year, args.total)
 else:
     print("Try again")
