@@ -1,6 +1,7 @@
 import os
 import argparse
 import sys
+from interactive import interactive_mode
 
 LIST_NUM = 10
 
@@ -82,19 +83,23 @@ def write_output(country, year, type):
                     file.write("\n")
     file.close()
 
+
+
 #PARSER
 parser = argparse.ArgumentParser()
 parser.add_argument('input', help="Filepath for an input file")
 parser.add_argument('-medals',nargs=2, help="Argument to get medalists by country and year")
 parser.add_argument('-total', help="Argument to get medalists by year")
 parser.add_argument('-output', type=str, help="Filepath for an output file")
-
+parser.add_argument('-interactive',nargs='*', help="Argument to switch to interactive mode")
 args = parser.parse_args()
 
 #LOAD DATA
 data = get_data_from_file("athlete_events.csv")
 
 #MAIN
+if args.interactive:
+    interactive_mode()
 if args.medals:
     country,year=args.medals
 else:

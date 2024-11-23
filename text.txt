@@ -1,0 +1,20 @@
+Aruba  Bronze:1 Silver:0 Gold:0
+Barbados  Bronze:1 Silver:0 Gold:0
+Belize  Bronze:1 Silver:0 Gold:0
+Bermuda  Bronze:2 Silver:0 Gold:0
+Cayman Islands  Bronze:1 Silver:0 Gold:0
+Congo (Kinshasa)  Bronze:1 Silver:0 Gold:0
+El Salvador  Bronze:1 Silver:0 Gold:0
+Gabon  Bronze:2 Silver:0 Gold:0
+Great Britain-4  Bronze:1 Silver:0 Gold:0
+Indonesia  Bronze:1 Silver:0 Gold:0
+Jo  Bronze:1 Silver:0 Gold:0
+Malta  Bronze:1 Silver:0 Gold:0
+Mongolia  Bronze:1 Silver:0 Gold:0
+Paraguay  Bronze:1 Silver:0 Gold:0
+Singapore  Bronze:1 Silver:0 Gold:0
+Soviet Union-2  Bronze:1 Silver:0 Gold:0
+Tan-Fe-Pah  Bronze:1 Silver:0 Gold:0
+Trinidad and Tobago  Bronze:2 Silver:0 Gold:0
+Ukraine-2  Bronze:1 Silver:0 Gold:0
+Zambia  Bronze:2 Silver:0 Gold:0
