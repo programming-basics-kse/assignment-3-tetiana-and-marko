@@ -21,10 +21,17 @@ def arguments_validation(input_file, country, year=None):
         return False
 
     if args.overall:
+
         for i in country:
+            right = 0
             for j in range(len(data)):
                 if i == data[j][6] or i == data[j][7] or args.total:
-                    country_flag = True
+                    right += 1
+            if right > 0:
+                country_flag = True
+            else:
+                print(f"{i} is not on the dataset!")
+
         year_flag = True
 
     for i in range(len(data)):
