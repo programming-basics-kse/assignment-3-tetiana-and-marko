@@ -1,0 +1,6 @@
+First Olympiad: 1896, Athina
+Most successful Olympiad(number of medals): 372
+Most unsuccessful Olympiad(number of medals): 18
+Average number of Gold medals: 68
+Average number of Silver medals: 43
+Average number of Bronze medals: 68

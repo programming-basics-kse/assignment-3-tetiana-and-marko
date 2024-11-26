@@ -3,7 +3,6 @@ import argparse
 import sys
 from interactive import interactive_mode,country_validation
 
-
 LIST_NUM = 10
 
 def get_data_from_file(name):
@@ -15,6 +14,7 @@ def get_data_from_file(name):
             data.append(a)
     return data
 
+# VALIDATION
 def arguments_validation(input_file, country=None, year=None):
     year_flag = country_flag = False
     if not os.path.exists(input_file):
@@ -47,11 +47,14 @@ def arguments_validation(input_file, country=None, year=None):
     if not year_flag:
         print(f"{year} is not in dataset!(Year invalid)")
     return False
+
 def year_validation(year):
     for i in range(len(data)):
         if year == data[i][9]:
             return True
     return False
+
+# MEDALS
 def print_medalists(country, year):
     counter = 0
     medals_count = []
@@ -68,7 +71,6 @@ def print_medalists(country, year):
                 medals_count.append(l[-1])
 
     print(f"Total numbers of medal:{len(medals_count)}  Gold:{medals_count.count('Gold')}  Silver:{medals_count.count('Silver')}  Bronze:{medals_count.count('Bronze')}")
-
 
 # TOTAL
 def total_dictionary(year):
@@ -89,7 +91,6 @@ def print_total(year):
                 "Gold") == 0:
             print(
                 f"{j}  Bronze:{totals[j].count('Bronze')} Silver:{totals[j].count('Silver')} Gold:{totals[j].count('Gold')}")
-
 
 # OVERALL
 def overall_sorter(countries):
@@ -114,14 +115,13 @@ def overall_sorter(countries):
 
     return sorted_result
 
-
 def print_overall(countries):
     overall = overall_sorter(countries)
     for i in overall:
         print(f"{i} {list(overall[i].keys())[0]} {list(overall[i].values())[0]}")
 
 
-# MEDALS
+# SAVE OUTPUT
 
 def write_output(country, year, type):
     with open(f"{args.output}", "wt") as file:
@@ -177,7 +177,8 @@ args = parser.parse_args()
 data = get_data_from_file(args.input)
 
 # MAIN
-
+country = ""
+year = 0
 if args.interactive:
     interactive_mode(data)
 
@@ -187,13 +188,13 @@ if args.medals:
         year = int(year)
 elif args.total:
     year = args.total
-    country = None
+
     if year.isdigit():
         year = int(year)
 
 elif args.overall:
     country = args.overall
-    year = None
+
 
 
 if arguments_validation(args.input, country, year):
