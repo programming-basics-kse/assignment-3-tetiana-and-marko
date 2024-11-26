@@ -1,7 +1,7 @@
 import os
 import argparse
 import sys
-from interactive import interactive_mode
+from interactive import interactive_mode,country_validation
 
 
 LIST_NUM = 10
@@ -15,14 +15,12 @@ def get_data_from_file(name):
             data.append(a)
     return data
 
-def arguments_validation(input_file, country, year=None):
+def arguments_validation(input_file, country=None, year=None):
     year_flag = country_flag = False
     if not os.path.exists(input_file):
         print("There is no such input file")
         return False
-
     if args.overall:
-
         for i in country:
             right = 0
             for j in range(len(data)):
@@ -32,14 +30,15 @@ def arguments_validation(input_file, country, year=None):
                 country_flag = True
             else:
                 print(f"{i} is not on the dataset!")
-
         year_flag = True
-
-    for i in range(len(data)):
-        if country == data[i][6] or country == data[i][7] or args.total:
-            country_flag = True
-        if year == data[i][9]:
-            year_flag = True
+    elif args.interactive:
+        country_flag=year_flag=True
+    elif args.total:
+        country_flag=True
+        year_flag=year_validation(year)
+    elif args.medals:
+        year_flag = year_validation(year)
+        country_flag=country_validation(data,country)
 
     if year_flag and country_flag:
         return True
@@ -48,6 +47,27 @@ def arguments_validation(input_file, country, year=None):
     if not year_flag:
         print(f"{year} is not in dataset!(Year invalid)")
     return False
+def year_validation(year):
+    for i in range(len(data)):
+        if year == data[i][9]:
+            return True
+    return False
+def print_medalists(country, year):
+    counter = 0
+    medals_count = []
+    for i in range(len(data)):
+        if counter < 10:
+            if (data[i][6] == country or data[i][7] == country) and year == data[i][9] and data[i][-1] != 'NA':
+                print(f"{data[i][1]}, {data[i][12]}, {data[i][-1]}")
+                counter += 1
+        else:
+            break
+    for l in data:
+        if (l[6] == country or l[7] == country) and year == l[9]:
+            if l[-1] != 'NA':
+                medals_count.append(l[-1])
+
+    print(f"Total numbers of medal:{len(medals_count)}  Gold:{medals_count.count('Gold')}  Silver:{medals_count.count('Silver')}  Bronze:{medals_count.count('Bronze')}")
 
 
 # TOTAL
@@ -102,23 +122,6 @@ def print_overall(countries):
 
 
 # MEDALS
-def print_medalists(country, year):
-    counter = 0
-    medals_count = []
-    for i in range(len(data)):
-        if counter < 10:
-            if (data[i][6] == country or data[i][7] == country) and year == data[i][9] and data[i][-1] != 'NA':
-                print(f"{data[i][1]}, {data[i][12]}, {data[i][-1]}")
-                counter += 1
-        else:
-            break
-    for l in data:
-        if (l[6] == country or l[7] == country) and year == l[9]:
-            if l[-1] != 'NA':
-                medals_count.append(l[-1])
-
-    print(f"Total numbers of medal:{len(medals_count)}  Gold:{medals_count.count('Gold')}  Silver:{medals_count.count('Silver')}  Bronze:{medals_count.count('Bronze')}")
-
 
 def write_output(country, year, type):
     with open(f"{args.output}", "wt") as file:
