@@ -8,7 +8,7 @@ def get_data_from_file(name):
     with open(os.getcwd() + fr"\{name}", "r") as file:
         next(file)
         for row in file:
-            a = [int(i) if i.isdigit() else i.replace('"', '') for i in row[:-1].split(",")]
+            a = [int(i) if i.isdigit() else i.replace('"', '') for i in row[:-1].split("	")]
             data.append(a)
     return data
 

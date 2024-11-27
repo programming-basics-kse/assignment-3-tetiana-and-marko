@@ -96,7 +96,7 @@ def interactive_mode(data):
     while True:
         country = ""
         while not country_validation(data,country):
-            country = input("Enter country code: ")
+            country = input("Enter country(full name or code): ")
         output_data=print_interactive(data,country)
         if not is_continue():
             break
