@@ -22,7 +22,7 @@ def arguments_validation(input_file, country=None, year=None):
         for i in country:
             right = 0
             for j in range(len(data)):
-                if i == data[j][6] or data == data[j][7]:
+                if i == data[j][6] or i == data[j][7]:
                     right += 1
             if right > 0:
                 country_flag = True
