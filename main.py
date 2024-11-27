@@ -12,6 +12,9 @@ def get_data_from_file(name):
         for row in file:
             a = [int(i) if i.isdigit() else i.replace('"', '') for i in row[:-1].split(",")]
             data.append(a)
+            """if a[6] not in countries:
+                countries.append(a[6])"""
+
     return data
 
 # VALIDATION
@@ -183,22 +186,20 @@ data = get_data_from_file(args.input)
 # MAIN
 country = ""
 year = 0
+
+
 if args.interactive:
     interactive_mode(data)
-
-if args.medals:
+elif args.medals:
     country, year = args.medals
     if year.isdigit():
         year = int(year)
 elif args.total:
     year = args.total
-
     if year.isdigit():
         year = int(year)
-
 elif args.overall:
     country = args.overall
-
 if arguments_validation(args.input, country, year):
     if args.medals:
         print_medalists(country, year)
@@ -214,3 +215,4 @@ if arguments_validation(args.input, country, year):
             write_output(country, year, args.overall)
 else:
     print("Try again")
+
