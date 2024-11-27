@@ -77,7 +77,7 @@ def print_interactive(data,country):
 
 def is_save_data():
     answ = ""
-    print("Do you want to save data in file?")
+    print("Do you want to save last data in file?")
     while answ.lower() != "y" and answ.lower() != "n":
         answ = input(">> ")
     if answ == "y":

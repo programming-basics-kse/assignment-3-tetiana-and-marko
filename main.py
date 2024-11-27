@@ -1,9 +1,7 @@
 import os
 import argparse
 import sys
-
 from interactive import interactive_mode, country_validation
-
 
 def get_data_from_file(name):
     data = []
@@ -13,7 +11,6 @@ def get_data_from_file(name):
             a = [int(i) if i.isdigit() else i.replace('"', '') for i in row[:-1].split(",")]
             data.append(a)
     return data
-
 
 # VALIDATION
 def arguments_validation(input_file, country=None, year=None):
@@ -79,7 +76,6 @@ def year_validation(year):
         if year == data[i][9]:
             return True
     return False
-
 
 # MEDALS
 def print_medalists(country, year):
