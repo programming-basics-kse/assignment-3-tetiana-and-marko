@@ -1,7 +1,9 @@
 import os
 import argparse
 import sys
+
 from interactive import interactive_mode, country_validation
+
 
 def get_data_from_file(name):
     data = []
@@ -11,6 +13,7 @@ def get_data_from_file(name):
             a = [int(i) if i.isdigit() else i.replace('"', '') for i in row[:-1].split(",")]
             data.append(a)
     return data
+
 
 # VALIDATION
 def arguments_validation(input_file, country=None, year=None):
@@ -22,12 +25,12 @@ def arguments_validation(input_file, country=None, year=None):
         for i in country:
             right = 0
             for j in range(len(data)):
-                if i == data[j][6] or i == data[j][7] or args.total:
+                if i == data[j][6] or data == data[j][7]:
                     right += 1
             if right > 0:
                 country_flag = True
             else:
-                print(f"{i} is not on the dataset!")
+                print(f"{i} is not on dataset!")
         year_flag = True
 
     elif args.interactive:
@@ -48,6 +51,26 @@ def arguments_validation(input_file, country=None, year=None):
     if not year_flag:
         print(f"{year} is not in dataset!(Year invalid)")
     return False
+
+
+def convert_countries(countries):
+    coun = []
+    validc = []
+    for i in data:
+        if not i[6] in coun:
+            coun.append(i[6])
+    previous = ""
+    for j in countries:
+        if previous:
+            previous = f"{previous} {j}"
+        else:
+            previous = j
+        if previous in coun:
+            validc.append(previous)
+            previous = ""
+        else:
+            validc.append(j)
+    return validc
 
 
 def year_validation(year):
@@ -197,7 +220,7 @@ elif args.total:
 
 elif args.overall:
     country = args.overall
-
+    country = convert_countries(country)
 if arguments_validation(args.input, country, year):
     if args.medals:
         print_medalists(country, year)
