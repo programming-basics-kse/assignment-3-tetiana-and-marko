@@ -53,6 +53,7 @@ def count_medals(data,country):
 
 def print_interactive(data,country):
     years_places,years_medals,years_gold,years_silver,years_bronze=count_medals(data,country)
+    print(*years_places.keys())
     first_year=min(years_places.keys())
     average_gold=int(mean(years_gold.values()))
     average_silver=int(mean(years_silver.values()))
@@ -95,7 +96,7 @@ def interactive_mode(data):
     while True:
         country = ""
         while not country_validation(data,country):
-            country = input("Enter country(full name or code): ")
+            country = input("Enter country code: ")
         output_data=print_interactive(data,country)
         if not is_continue():
             break
