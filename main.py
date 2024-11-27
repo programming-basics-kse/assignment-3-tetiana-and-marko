@@ -183,7 +183,7 @@ def write_output(country, year, type):
         if type == args.overall:
             overall = overall_sorter(country)
             for i in overall:
-                file.write(f"{i} {overall[i][0]} {overall[i][0]}")
+                file.write(f"{i} {overall[i][0]} {overall[i][1]}")
                 file.write("\n")
 
 
