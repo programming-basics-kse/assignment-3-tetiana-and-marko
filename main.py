@@ -1,10 +1,8 @@
 import os
 import argparse
 import sys
-from interactive import interactive_mode,country_validation
+from interactive import interactive_mode, country_validation
 
-LIST_NUM = 10
-countries=[]
 def get_data_from_file(name):
     data = []
     with open(os.getcwd() + fr"\{name}", "r") as file:
@@ -12,9 +10,6 @@ def get_data_from_file(name):
         for row in file:
             a = [int(i) if i.isdigit() else i.replace('"', '') for i in row[:-1].split(",")]
             data.append(a)
-            """if a[6] not in countries:
-                countries.append(a[6])"""
-
     return data
 
 # VALIDATION
@@ -27,12 +22,12 @@ def arguments_validation(input_file, country=None, year=None):
         for i in country:
             right = 0
             for j in range(len(data)):
-                if i == data[j][6] or i == data[j][7] or args.total:
+                if i == data[j][6] or data == data[j][7]:
                     right += 1
             if right > 0:
                 country_flag = True
             else:
-                print(f"{i} is not on the dataset!")
+                print(f"{i} is not on dataset!")
         year_flag = True
 
     elif args.interactive:
@@ -53,6 +48,27 @@ def arguments_validation(input_file, country=None, year=None):
     if not year_flag:
         print(f"{year} is not in dataset!(Year invalid)")
     return False
+
+
+def convert_countries(countries):
+    coun = []
+    validc = []
+    for i in data:
+        if not i[6] in coun:
+            coun.append(i[6])
+    previous = ""
+    for j in countries:
+        if previous:
+            previous = f"{previous} {j}"
+        else:
+            previous = j
+        if previous in coun:
+            validc.append(previous)
+            previous = ""
+        else:
+            validc.append(j)
+    return validc
+
 
 def year_validation(year):
     for i in range(len(data)):
@@ -186,11 +202,10 @@ data = get_data_from_file(args.input)
 # MAIN
 country = ""
 year = 0
-
-
 if args.interactive:
     interactive_mode(data)
-elif args.medals:
+
+if args.medals:
     country, year = args.medals
     if year.isdigit():
         year = int(year)
@@ -198,8 +213,10 @@ elif args.total:
     year = args.total
     if year.isdigit():
         year = int(year)
+
 elif args.overall:
     country = args.overall
+    country = convert_countries(country)
 if arguments_validation(args.input, country, year):
     if args.medals:
         print_medalists(country, year)
@@ -215,4 +232,3 @@ if arguments_validation(args.input, country, year):
             write_output(country, year, args.overall)
 else:
     print("Try again")
-
