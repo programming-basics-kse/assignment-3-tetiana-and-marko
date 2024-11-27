@@ -67,7 +67,7 @@ def convert_countries(countries):
             validc.append(previous)
             previous = ""
         else:
-            validc.append(j)
+            continue
     return validc
 
 
