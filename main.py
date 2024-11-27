@@ -1,9 +1,7 @@
 import os
 import argparse
 import sys
-from interactive import interactive_mode,country_validation
-
-LIST_NUM = 10
+from interactive import interactive_mode, country_validation
 
 def get_data_from_file(name):
     data = []
@@ -31,14 +29,17 @@ def arguments_validation(input_file, country=None, year=None):
             else:
                 print(f"{i} is not on the dataset!")
         year_flag = True
+
     elif args.interactive:
-        country_flag=year_flag=True
+        country_flag = year_flag = True
+
     elif args.total:
-        country_flag=True
-        year_flag=year_validation(year)
+        country_flag = True
+        year_flag = year_validation(year)
+
     elif args.medals:
         year_flag = year_validation(year)
-        country_flag=country_validation(data,country)
+        country_flag = country_validation(data, country)
 
     if year_flag and country_flag:
         return True
@@ -48,11 +49,13 @@ def arguments_validation(input_file, country=None, year=None):
         print(f"{year} is not in dataset!(Year invalid)")
     return False
 
+
 def year_validation(year):
     for i in range(len(data)):
         if year == data[i][9]:
             return True
     return False
+
 
 # MEDALS
 def print_medalists(country, year):
@@ -70,7 +73,9 @@ def print_medalists(country, year):
             if l[-1] != 'NA':
                 medals_count.append(l[-1])
 
-    print(f"Total numbers of medal:{len(medals_count)}  Gold:{medals_count.count('Gold')}  Silver:{medals_count.count('Silver')}  Bronze:{medals_count.count('Bronze')}")
+    print(
+        f"Total numbers of medal:{len(medals_count)}  Gold:{medals_count.count('Gold')}  Silver:{medals_count.count('Silver')}  Bronze:{medals_count.count('Bronze')}")
+
 
 # TOTAL
 def total_dictionary(year):
@@ -84,13 +89,14 @@ def total_dictionary(year):
                 totals[i[6]].append(i[-1])
     return totals
 
+
 def print_total(year):
     totals = total_dictionary(year)
     for j in totals:
-        if not totals[j].count("Bronze") == 0 and not totals[j].count("Silver") == 0 and not totals[j].count(
-                "Gold") == 0:
+        if totals[j].count("Bronze") + totals[j].count("Silver") + totals[j].count("Gold") != 0:
             print(
                 f"{j}  Bronze:{totals[j].count('Bronze')} Silver:{totals[j].count('Silver')} Gold:{totals[j].count('Gold')}")
+
 
 # OVERALL
 def overall_sorter(countries):
@@ -111,14 +117,15 @@ def overall_sorter(countries):
     for c in countries:
         if overall[c]:
             year, maxi = max(overall[c].items(), key=lambda x: x[1])
-            sorted_result[c] = {year: maxi}
+            sorted_result[c] = [year, maxi]
 
     return sorted_result
+
 
 def print_overall(countries):
     overall = overall_sorter(countries)
     for i in overall:
-        print(f"{i} {list(overall[i].keys())[0]} {list(overall[i].values())[0]}")
+        print(f"{i} {overall[i][0]} {overall[i][1]}")
 
 
 # SAVE OUTPUT
@@ -141,7 +148,8 @@ def write_output(country, year, type):
                 if (l[6] == country or l[7] == country) and year == l[9]:
                     if l[-1] != 'NA':
                         medals_count.append(l[-1])
-            file.write(f"Total numbers of medal:{len(medals_count)}  Gold:{medals_count.count('Gold')}  Silver:{medals_count.count('Silver')}  Bronze:{medals_count.count('Bronze')}")
+            file.write(
+                f"Total numbers of medal:{len(medals_count)}  Gold:{medals_count.count('Gold')}  Silver:{medals_count.count('Silver')}  Bronze:{medals_count.count('Bronze')}")
 
         if type == args.total:
             totals = total_dictionary(year)
@@ -155,12 +163,8 @@ def write_output(country, year, type):
         if type == args.overall:
             overall = overall_sorter(country)
             for i in overall:
-                file.write(f"{i} {list(overall[i].keys())[0]} {list(overall[i].values())[0]}")
+                file.write(f"{i} {overall[i][0]} {overall[i][0]}")
                 file.write("\n")
-
-    file.close()
-
-
 
 
 # PARSER
@@ -170,7 +174,7 @@ parser.add_argument('-medals', nargs=2, help="Argument to get medalists by count
 parser.add_argument('-total', help="Argument to get medalists by year")
 parser.add_argument('-overall', nargs='+', help="Argument to get the year with the most medals")
 parser.add_argument('-output', type=str, help="Filepath for an output file")
-parser.add_argument('-interactive',action="store_true", help="Argument to switch to interactive mode")
+parser.add_argument('-interactive', action="store_true", help="Argument to switch to interactive mode")
 args = parser.parse_args()
 
 # LOAD DATA
@@ -188,14 +192,11 @@ if args.medals:
         year = int(year)
 elif args.total:
     year = args.total
-
     if year.isdigit():
         year = int(year)
 
 elif args.overall:
     country = args.overall
-
-
 
 if arguments_validation(args.input, country, year):
     if args.medals:
