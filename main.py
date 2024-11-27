@@ -56,6 +56,7 @@ def convert_countries(countries):
     for i in data:
         if not i[6] in coun:
             coun.append(i[6])
+            coun.append(i[7])
     previous = ""
     for j in countries:
         if previous:
@@ -204,8 +205,7 @@ country = ""
 year = 0
 if args.interactive:
     interactive_mode(data)
-
-if args.medals:
+elif args.medals:
     country, year = args.medals
     if year.isdigit():
         year = int(year)
@@ -213,10 +213,10 @@ elif args.total:
     year = args.total
     if year.isdigit():
         year = int(year)
-
 elif args.overall:
     country = args.overall
-    country = convert_countries(country)
+    #country = convert_countries(country)
+
 if arguments_validation(args.input, country, year):
     if args.medals:
         print_medalists(country, year)
