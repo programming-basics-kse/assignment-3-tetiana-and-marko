@@ -4,7 +4,7 @@ import sys
 from interactive import interactive_mode,country_validation
 
 LIST_NUM = 10
-
+countries=[]
 def get_data_from_file(name):
     data = []
     with open(os.getcwd() + fr"\{name}", "r") as file:
