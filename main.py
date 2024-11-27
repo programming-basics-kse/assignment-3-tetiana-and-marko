@@ -215,7 +215,7 @@ elif args.total:
         year = int(year)
 elif args.overall:
     country = args.overall
-    #country = convert_countries(country)
+    country = convert_countries(country)
 
 if arguments_validation(args.input, country, year):
     if args.medals:
